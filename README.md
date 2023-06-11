@@ -6,9 +6,13 @@ App's purpose is to be helpful to teams or organizations that have meetings regu
 
 These are the guidelines on how to use the app:
 
-#Create team account
+## Create team account
+
 
 The Organization or a team creates it's personal account through the register page.
+![homepage landing](https://github.com/kosharun/Assembly-Tracker/assets/121234919/dd364a0b-7f42-4c2c-83e5-67ffd6cd8160)
+
+
 After a successful authentication the app provides abilities like:
 - creating a meeting
 - adding team members
