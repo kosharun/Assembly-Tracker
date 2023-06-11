@@ -39,7 +39,7 @@ Check the present members.
 ## OPTIONAL: Add agenda items
 
 
-- This is the topic that your team is talking about in that meeting. You can add free text description for that topic. Also you can create multiple agenda items.
+- Agenda items are the topics that your team is talking about in that meeting. You can add free text description for each agenda item. Also you can create multiple agenda items.
 
 
 ![mfagitem](https://github.com/kosharun/Assembly-Tracker/assets/121234919/fbbac5d3-ad0d-4dfa-95f0-768fd40e424c)
