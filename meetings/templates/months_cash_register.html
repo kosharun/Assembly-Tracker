@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <br><br><br>
+                <h1 style="color: white;">Monthly Data</h1>
+                {% for year, month_list in months_data.items %}
+                    <br><br>
+                    <h2 style="color: white;">{{ year }}</h2>
+                    <div class="card-columns">
+                        <div class="card">
+                            <div class="card-header">
+                                Income Cash Register 1
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chart-ulaz-dzemata-{{ year }}"></canvas>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                Income Cash Register 2
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chart-ulaz-ukopno-{{ year }}"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                Exit Cash Register 1
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chart-izlaz-dzemata-{{ year }}"></canvas>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                Exit Cash Register 2
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chart-izlaz-ukopno-{{ year }}"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                Transfer Cash Register 1
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chart-prenos-dzemata-{{ year }}"></canvas>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                Transfer Cash Register 2
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chart-prenos-ukopno-{{ year }}"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        {% for year, month_list in months_data.items %}
+            var ulazDzemataData{{ year }} = [];
+            var izlazDzemataData{{ year }} = [];
+            var prenosDzemataData{{ year }} = [];
+            var ulazUkopnoData{{ year }} = [];
+            var izlazUkopnoData{{ year }} = [];
+            var prenosUkopnoData{{ year }} = [];
+            var labels{{ year }} = [];
+    
+            {% for item in month_list %}
+            {% if item.agenda_item == 'Blagajna dzemata' %}
+                ulazDzemataData{{ year }}.push({{ item.ulaz }});
+                labels{{ year }}.push("{{ item.mjesec }}");
+                izlazDzemataData{{ year }}.push({{ item.izlaz }});
+                prenosDzemataData{{ year }}.push({{ item.prenos }});
+            {% elif item.agenda_item == 'Blagajna ukopno društvo' %}
+                ulazUkopnoData{{ year }}.push({{ item.ulaz }});
+                izlazUkopnoData{{ year }}.push({{ item.izlaz }});
+                prenosUkopnoData{{ year }}.push({{ item.prenos }});
+            {% endif %}
+            {% endfor %}
+    
+            var chartUlazDzemata{{ year }} = new Chart(document.getElementById("chart-ulaz-dzemata-{{ year }}"), {
+                type: 'line',
+                data: {
+                    labels: labels{{ year }},
+                    datasets: [{
+                        label: 'Graph 1 (Ulaz Blagajna Dzemata)',
+                        data: ulazDzemataData{{ year }},
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        pointHoverRadius: 8,
+                        pointRadius: 6 // Increase the radius for the points
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var chartIzlazDzemata{{ year }} = new Chart(document.getElementById("chart-izlaz-dzemata-{{ year }}"), {
+                type: 'line',
+                data: {
+                    labels: labels{{ year }},
+                    datasets: [{
+                        label: 'Graph 2 (Izlaz Blagajna Dzemata)',
+                        data: izlazDzemataData{{ year }},
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        pointHoverRadius: 8,
+                        pointRadius: 6 // Increase the radius for the points
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var chartPrenosDzemata{{ year }} = new Chart(document.getElementById("chart-prenos-dzemata-{{ year }}"), {
+                type: 'line',
+                data: {
+                    labels: labels{{ year }},
+                    datasets: [{
+                        label: 'Graph 3 (Prenos Blagajna Dzemata)',
+                        data: prenosDzemataData{{ year }},
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        pointHoverRadius: 8,
+                        pointRadius: 6 // Increase the radius for the points
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var chartUlazUkopno{{ year }} = new Chart(document.getElementById("chart-ulaz-ukopno-{{ year }}"), {
+                type: 'line',
+                data: {
+                    labels: labels{{ year }},
+                    datasets: [{
+                        label: 'Graph 1 (Ulaz Blagajna Ukopno Drustvo)',
+                        data: ulazUkopnoData{{ year }},
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        pointHoverRadius: 8,
+                        pointRadius: 6 // Increase the radius for the points
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var chartIzlazUkopno{{ year }} = new Chart(document.getElementById("chart-izlaz-ukopno-{{ year }}"), {
+                type: 'line',
+                data: {
+                    labels: labels{{ year }},
+                    datasets: [{
+                        label: 'Graph 2 (Izlaz Blagajna Ukopno Drustvo)',
+                        data: izlazUkopnoData{{ year }},
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        pointHoverRadius: 8,
+                        pointRadius: 6 // Increase the radius for the points
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var chartPrenosUkopno{{ year }} = new Chart(document.getElementById("chart-prenos-ukopno-{{ year }}"), {
+                type: 'line',
+                data: {
+                    labels: labels{{ year }},
+                    datasets: [{
+                        label: 'Graph 3 (Prenos Blagajna Ukopno Drustvo)',
+                        data: prenosUkopnoData{{ year }},
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        pointHoverRadius: 8,
+                        pointRadius: 6 // Increase the radius for the points
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        {% endfor %}
+    </script>
+{% endblock %}

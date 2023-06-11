@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <br><br><br>
+    <h1>Meetings</h1><br><br><br>
+    <title>Assembly Tracker</title>
+    <ul>
+        {% for meeting in meetings %}
+            <li>
+              <a href="/meeting-detail/{{ meeting.id }}/">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        {{ meeting.title }}
+                      </h5>
+                      <p class="card-text">Date: {{ meeting.date }}</p>
+                    </div>
+                  </div>
+                </a>
+            </li>
+            <br>
+        {% empty %}
+            <li>No meetings found.</li>
+        {% endfor %}
+    </ul>
+
+    <style>
+      .card {
+        background-color: rgb(17, 24, 97);
+        border: solid rgb(6, 6, 60);
+        color: white;
+      }
+      .card:hover {
+        background-color: rgb(144, 177, 238);
+        color: black;
+      }
+      a:hover, a:visited, a:link, a:active {
+        text-decoration: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+      }
+      h1 {
+        color: white;
+      }
+    </style>
+  {% else %}
+    <title>Assembly Tracker</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: linear-gradient(to bottom right, #07264d, #0a3b6c, #0d528c, #1069ab, #1370c7);
+        color: #fff;
+        font-family: Arial, sans-serif;
+      }
+  
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+  
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+  
+      .btn-container {
+        display: flex;
+        gap: 1rem;
+      }
+  
+      .btn {
+        padding: 1rem 2rem;
+        background-color: rgb(6, 21, 115);
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 1.2rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+  
+      .btn:hover {
+        background-color: rgb(113, 159, 245);
+      }
+    </style>
+    
+    <body>
+      <div class="container">
+        <h1>Welcome to Assembly Tracker</h1>
+        <div class="btn-container">
+          <a href="/login" class="btn">Login</a>
+          <a href="/register" class="btn">Register</a>
+        </div>
+      </div>
+    </body>
+  {% endif %}
+{% endblock %}

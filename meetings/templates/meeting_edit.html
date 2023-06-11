@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1>Edit Meeting: {{ meeting.title }}</h1><br>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="{{ form.title.id_for_label }}">Title:</label>
+                                <input type="text" class="form-control" placeholder="Title" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" value="{{ form.title.value }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.date.id_for_label }}">Date:</label>
+                                <input type="date" class="form-control" placeholder="MM/DD/YYYY" name="{{ form.date.name }}" id="{{ form.date.id_for_label }}" value="{{ form.date.value|date:'Y-m-d' }}" pattern="(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])/\d{4}" required inputmode="numeric">
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.present_members.id_for_label }}">Present Members:</label><br>
+                                {% for member in members %}
+                                    <input type="checkbox" name="present_members" value="{{ member.id }}" {% if member in meeting.present_members.all %}checked{% endif %}> {{ member.name }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="agenda-items">
+                        {% for agenda_item in meeting.agenda_items.all %}
+                            <div class="form-group">
+                                <div class="card">
+                                    <div class="card-body">
+                                        {% if agenda_item.ulaz > 0 or agenda_item.izlaz > 0 or agenda_item.prenos > 0 %}
+                                            <h5 class="card-title"><b>{{ agenda_item.agenda_item }}</b> month <b>{{ agenda_item.mjesec }}.</b></h5>
+                                            <input type="hidden" class="form-control" placeholder="Agenda Item" name="agenda_item[]" required value="{{agenda_item.agenda_item}}">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Month:</label>
+                                                    <input type="number" class="form-control" placeholder="Month" name="agenda_mjesec[]" required value="{{ agenda_item.mjesec }}">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Income:</label>
+                                                    <input type="number" class="form-control" placeholder="Income" name="agenda_ulaz[]" value="{{ agenda_item.ulaz }}" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Exit:</label>
+                                                    <input type="number" class="form-control" placeholder="Exit" name="agenda_izlaz[]" value="{{ agenda_item.izlaz }}" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Transfer:</label>
+                                                    <input type="number" class="form-control" placeholder="Prenos" name="agenda_prenos[]" value="{{ agenda_item.prenos }}" required>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if agenda_item.description %}
+                                            <input type="text" class="form-control" placeholder="Agenda Item" name="agenda_item[]" required value="{{agenda_item.agenda_item}}">
+                                            <textarea class="form-control" rows="3" placeholder="Description" name="agenda_description[]" required>{{ agenda_item.description }}</textarea>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="new-agenda-item"></div>
+                    <br>
+                    <button type="button" class="btn btn-primary" onclick="addAgendaItem()">Add Agenda Item</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="{% url 'meetings:homepage' %}" class="btn btn-danger">Cancel</a><br><br><br><br><br>   
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addAgendaItem() {
+            var agendaItemsDiv = document.getElementById('new-agenda-item');
+
+            var agendaItemDiv = document.createElement('div');
+            agendaItemDiv.className = 'card mb-3';
+
+            var cardBodyDiv = document.createElement('div');
+            cardBodyDiv.className = 'card-body';
+
+            var agendaItemInputGroup = document.createElement('div');
+
+            var agendaItemInput = document.createElement('input');
+            agendaItemInput.type = 'text';
+            agendaItemInput.className = 'form-control';
+            agendaItemInput.placeholder = 'Agenda Item';
+            agendaItemInput.name = 'agenda_item[]';
+            agendaItemInput.required = true;
+
+            var agendaDescriptionTextarea = document.createElement('textarea');
+            agendaDescriptionTextarea.className = 'form-control';
+            agendaDescriptionTextarea.rows = '3';
+            agendaDescriptionTextarea.placeholder = 'Description';
+            agendaDescriptionTextarea.name = 'agenda_description[]';
+            agendaDescriptionTextarea.required = true;
+
+            var removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'btn btn-danger remove-agenda-item';
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', function () {
+                agendaItemsDiv.removeChild(agendaItemDiv);
+            });
+
+            agendaItemInputGroup.appendChild(agendaItemInput);
+            agendaItemInputGroup.appendChild(agendaDescriptionTextarea);
+            agendaItemInputGroup.appendChild(removeButton);
+            cardBodyDiv.appendChild(agendaItemInputGroup);
+            agendaItemDiv.appendChild(cardBodyDiv);
+
+            agendaItemsDiv.appendChild(agendaItemDiv);
+        }
+    </script>
+
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .form-control {
+            border-color: rgb(0, 0, 0);
+        }
+        h1 {
+            color: white;
+        }
+        .card {
+            background-color: rgb(17, 24, 97);
+            border: solid rgb(6, 6, 60);
+            color: white;
+        }
+        .btn {
+            background-color: rgb(0, 0, 0);
+            color: white;
+        }
+        .btn:hover {
+            background-color: rgb(144, 177, 238);
+            color: black;
+        }
+        .btn-danger {
+            background-color: rgb(184, 38, 38);
+            border: solid rgb(0, 0, 0);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: rgb(251, 54, 54);
+        }
+    </style>
+{% endblock %}

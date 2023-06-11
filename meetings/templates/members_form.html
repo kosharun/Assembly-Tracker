@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    
+
+    <br><br>
+    <table style="width: auto; border: solid; color: white;">
+        <tr>
+            <th>Name</th>
+            {% for meeting in meetings %}
+                <th>{{ meeting.date }}</th>
+            {% endfor %}
+        </tr>
+        
+        {% for member in members %}
+            <tr>
+                <th>{{ member.name }}</th>
+                {% for meeting in meetings %}
+                    <td>
+                        {% if member in meeting.present_members.all %}
+                            <b>+</b>
+                        {% else %}
+                            <b>/</b>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <br><br>
+    <h1>All Members:</h1><br>
+
+    {% for member in members %}
+        <a href="{% url 'meetings:member_info' member_id=member.id %}">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: white;">{{ member.name }}</h5>
+                    <div class="modal-footer">
+                        <a href="{% url 'meetings:member_delete' member_id=member.id %}" class="btn btn-danger">Remove member</a>
+                    </div>
+                </div>
+            </div>
+        </a>    
+    {% endfor %}  <br> <br>  
+    
+
+    <h2>Add a new Member</h2><br>   
+    <div class="card mb-3" >
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">Add Member</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <style>
+        th, td {
+            border: solid;
+            text-align: center;
+        }
+        td {
+            font-size: large;
+        }
+        .btn {
+            background-color: rgb(0, 0, 0);
+            color: white;
+        }
+        .btn:hover {
+            background-color: rgb(144, 177, 238);
+            color: black;
+        }
+        h1, h2, h3 {
+            color: white;
+        }
+        .card {
+            background-color: rgb(17, 24, 97);
+            border: solid rgb(6, 6, 60);
+            color: white;
+        }
+        .btn-danger {
+            background-color: rgb(184, 38, 38);
+            border: solid rgb(0, 0, 0);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: rgb(251, 54, 54);
+        }
+        a:hover, a:visited, a:link, a:active {
+            text-decoration: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+    </style>
+{% endblock %}

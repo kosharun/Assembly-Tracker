@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(12, 5, 44);">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Assembly Tracker</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item {% if request.path == '/' %}active{% endif %}">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        {% if user.is_authenticated %}
+          <!-- Display Logout link when the user is logged in -->
+          <li class="nav-item {% if request.path == '/meeting-form/' %}active{% endif %}">
+            <a class="nav-link" href="/meeting-form">Create a new meeting</a>
+          </li>
+          <li class="nav-item {% if request.path == '/members-form/' %}active{% endif %}">
+            <a class="nav-link" href="/members-form">Members</a>
+          </li>
+          <li class="nav-item {% if request.path == '/months/' %}active{% endif %}">
+            <a class="nav-link" href="/months">Cash</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'meetings:logout' %}">Logout</a>
+          </li>          
+        {% else %}
+          <!-- Display Login link when the user is logged out -->
+          <li class="nav-item {% if request.path == '/login/' %}active{% endif %}">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <!-- Display Register link when the user is logged out -->
+          <li class="nav-item {% if request.path == '/register/' %}active{% endif %}">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
