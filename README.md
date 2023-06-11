@@ -1,7 +1,7 @@
 # Assembly-Tracker
 
 
-Assembly Tracker is a web app, made using Django Python framework, for tracking team meetings.
+Assembly Tracker is a web app, made using Django Python Framework, for tracking team meetings.
 App's purpose is to be helpful to teams or organizations that have meetings regularly.
 
 These are the guidelines on how to use the app:
