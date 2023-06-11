@@ -51,6 +51,9 @@ When you open one of them you have options to edit that meeting, remove it and a
 ![mdetail1](https://github.com/kosharun/Assembly-Tracker/assets/121234919/2f301de5-5fad-47b6-8533-2ff226295c7b)
 ![mdetail2](https://github.com/kosharun/Assembly-Tracker/assets/121234919/dd2ba305-bf54-435d-b12e-894a12161568)
 
+If you click the "Download PDF" button you get this:
+
+![pdfview](https://github.com/kosharun/Assembly-Tracker/assets/121234919/c44eb91a-1a94-4cab-9521-8cefe8b18b74)
 
 ## Members tab
 
