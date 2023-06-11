@@ -27,7 +27,7 @@ After a successful authentication the app provides abilities like:
 
 ![adding a member](https://github.com/kosharun/Assembly-Tracker/assets/121234919/b914664e-f373-4abc-b722-ea7dc2c8a5a9)
 
-### Now create a new meeting by filling up all required fields
+## Now create a new meeting by filling up all required fields
 
 
 Based on the date that you are creating your meeting on, automatic fields for "monthly cash register" are loaded(for current month, also for months in which no meetings were held).
@@ -36,7 +36,7 @@ Check the present members.
 
 ![mf1](https://github.com/kosharun/Assembly-Tracker/assets/121234919/8ca21434-a73f-497a-af08-1e18411e4249)
 
-### OPTIONAL: Add agenda item
+## OPTIONAL: Add agenda items
 
 
 - This is the topic that your team is talking about in that meeting. You can add free text description for that topic. Also you can create multiple agenda items.
